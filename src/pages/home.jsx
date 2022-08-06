@@ -104,6 +104,7 @@ const Container = styled.div`
 
         :hover {
           font-weight: 500;
+          color: var(--bright);
         }
       }
     }
