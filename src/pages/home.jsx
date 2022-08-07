@@ -12,7 +12,7 @@ const Home = () => {
     "drama",
     "horror",
     "thriller",
-    "sci - fi",
+    "scifi",
     "animation",
     "documentary",
     "mystery",
@@ -26,10 +26,7 @@ const Home = () => {
     "sport",
     "news",
     "short",
-    "tv - movie",
-    "game show",
     "reality",
-    "tv - minisode",
   ]);
 
   const variants = {
@@ -66,7 +63,9 @@ const Home = () => {
             whileHover="hover"
             key={index}
           >
-            <Link to={`/movies/${movie}`}>{movie}</Link>
+            <Link to={`/movies/${movie}`} data-text={`${movie}`}>
+              {movie}
+            </Link>
           </motion.li>
         ))}
       </ul>
@@ -92,19 +91,36 @@ const Container = styled.div`
 
     li {
       width: auto;
+      position: relative;
       text-align: center;
       height: auto;
       margin: 50px 0;
+      list-style: none;
 
       a {
+        position: relative;
         font-size: 5em;
-        font-weight: 500;
+        font-weight: 700;
         text-decoration: none;
-        color: var(--white);
+        color: transparent;
+        text-transform: uppercase;
+        -webkit-text-stroke: 1px var(--white);
+
+        ::before {
+          content: attr(data-text);
+          position: absolute;
+          color: var(--white);
+          width: 0%;
+          overflow: hidden;
+          transition: 0.5s;
+        }
 
         :hover {
-          font-weight: 500;
-          color: var(--bright);
+          font-weight: 700;
+
+          ::before {
+            width: 100%;
+          }
         }
       }
     }
