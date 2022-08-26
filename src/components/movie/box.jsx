@@ -16,7 +16,11 @@ const Box = ({ movie }) => {
         />
       </div>
       <div className="about">
-        <p className="title">{movie?.original_title}</p>
+        <p className="title">
+          {movie?.original_title?.length > 18
+            ? `${movie?.original_title?.slice(0, 18)}...`
+            : `${movie?.original_title}`}
+        </p>
         <p className="rate">{movie?.vote_average}</p>
       </div>
     </Container>
@@ -25,12 +29,16 @@ const Box = ({ movie }) => {
 
 const Container = styled.div`
   width: 300px;
-  height: 550px;
+  height: 500px;
   margin: 10px 0;
   color: var(--white);
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 
   .image {
     width: 100%;

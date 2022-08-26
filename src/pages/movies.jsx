@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Pagination from "@mui/material/Pagination";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 
@@ -9,19 +11,50 @@ import Box from "../components/movie/box";
 const Movies = () => {
   const { state } = useLocation();
   const { genre } = useParams();
+  const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
+  const [results, setResults] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const theme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+
+  const pagination = (e, value) => {
+    setPage(value);
+    setLoading(true);
     api
       .get("/discover/movie", {
         params: {
+          page: page,
           include_adult: false,
           include_video: true,
           with_genres: `${state?.genreId},`,
         },
       })
       .then((res) => {
-        console.log(res.data.results);
+        setLoading(false);
+        setResults(res?.data);
+        setMovies(res?.data?.results);
+      });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get("/discover/movie", {
+        params: {
+          page: page,
+          include_adult: false,
+          include_video: true,
+          with_genres: `${state?.genreId},`,
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        setResults(res?.data);
         setMovies(res?.data?.results);
       });
   }, []);
@@ -29,10 +62,29 @@ const Movies = () => {
   return (
     <Container>
       <Nav genre={genre} />
-      <div className="movies">
-        {movies.map((movie, index) => (
-          <Box movie={movie} key={index} />
-        ))}
+      <div
+        className="movies"
+        style={loading ? { height: "calc(100vh - 120px)" } : {}}
+      >
+        {loading ? (
+          <img src="/loader.svg" alt="loader" />
+        ) : (
+          <>
+            {movies.map((movie, index) => (
+              <Box movie={movie} key={index} />
+            ))}
+          </>
+        )}
+      </div>
+      <div className="pagination">
+        <ThemeProvider theme={theme}>
+          <Pagination
+            count={results?.total_pages}
+            shape="rounded"
+            onChange={pagination}
+            page={page}
+          />
+        </ThemeProvider>
       </div>
     </Container>
   );
@@ -47,13 +99,27 @@ const Container = styled.div`
 
   .movies {
     margin-top: 100px;
-    width: 100%;
+    width: auto;
     height: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0 20px;
+
+    > img {
+      width: 50px;
+    }
+  }
+
+  .pagination {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
   }
 `;
 
