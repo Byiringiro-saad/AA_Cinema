@@ -1,33 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Nav from "../components/nav";
 
+import api from "../features/api";
+
 const Home = () => {
-  const [movies, setMovies] = useState([
-    "fantasy",
-    "comedy",
-    "action",
-    "drama",
-    "horror",
-    "thriller",
-    "scifi",
-    "animation",
-    "documentary",
-    "mystery",
-    "romance",
-    "family",
-    "war",
-    "history",
-    "western",
-    "adventure",
-    "musical",
-    "sport",
-    "news",
-    "short",
-    "reality",
-  ]);
+  const [genres, setGenres] = useState([]);
+
+  useEffect(() => {
+    api.get("/genre/movie/list").then((res) => {
+      setGenres(res?.data?.genres);
+    });
+  }, []);
 
   const variants = {
     hidden: {
@@ -55,7 +41,7 @@ const Home = () => {
     <Container>
       <Nav />
       <ul>
-        {movies.map((movie, index) => (
+        {genres.map((genre, index) => (
           <motion.li
             variants={variants}
             initial="hidden"
@@ -63,8 +49,12 @@ const Home = () => {
             whileHover="hover"
             key={index}
           >
-            <Link to={`/movies/${movie}`} data-text={`${movie}`}>
-              {movie}
+            <Link
+              to={`/genres/${genre?.name?.toLowerCase()}`}
+              state={{ genreId: genre?.id }}
+              data-text={`${genre.name}`}
+            >
+              {genre.name}
             </Link>
           </motion.li>
         ))}
@@ -82,6 +72,7 @@ const Container = styled.div`
   justify-content: center;
 
   ul {
+    margin-top: 100px;
     width: 100%;
     height: auto;
     display: flex;
