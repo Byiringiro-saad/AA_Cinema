@@ -24,21 +24,6 @@ const Movies = () => {
 
   const pagination = (e, value) => {
     setPage(value);
-    setLoading(true);
-    api
-      .get("/discover/movie", {
-        params: {
-          page: page,
-          include_adult: false,
-          include_video: true,
-          with_genres: `${state?.genreId},`,
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        setResults(res?.data);
-        setMovies(res?.data?.results);
-      });
   };
 
   useEffect(() => {
@@ -57,7 +42,7 @@ const Movies = () => {
         setResults(res?.data);
         setMovies(res?.data?.results);
       });
-  }, []);
+  }, [page]);
 
   return (
     <Container>
