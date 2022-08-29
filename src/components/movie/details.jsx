@@ -1,20 +1,27 @@
-import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
+
 import api from "../../features/api";
 
 const Details = ({ movie, close }) => {
+  const navigate = useNavigate();
+  const { genre } = useParams();
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     setLoading(true);
     api.get(`/movie/${movie.id}`).then((res) => {
-      console.log(res.data);
       setLoading(false);
       setData(res.data);
     });
   }, []);
+
+  const goToMovie = () => {
+    navigate(`/genres/${genre}/${movie.id}`);
+  };
 
   return ReactDOM.createPortal(
     <Container>
@@ -55,7 +62,7 @@ const Details = ({ movie, close }) => {
             </div>
           </>
         )}
-        <button>Play</button>
+        <button onClick={goToMovie}>Play</button>
       </div>
       <div className="background" onClick={() => close()}></div>
     </Container>,
@@ -175,6 +182,8 @@ const Container = styled.div`
       font-size: 1.1em;
       font-weight: 800;
       cursor: pointer;
+      border-radius: 5px;
+      border: none;
     }
   }
 

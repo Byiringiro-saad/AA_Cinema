@@ -7,6 +7,7 @@ import Movies from "./pages/movies";
 
 //components
 import Background from "./components/background";
+import Movie from "./pages/movie";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="/genres/:genre" exact element={<Movies />} />
+        <Route path="/genres/:genre/:movie" exact element={<Movie />} />
       </Routes>
       <Background />
     </Router>
