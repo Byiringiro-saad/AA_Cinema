@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import Details from "./details";
 
 const Box = ({ movie }) => {
+  const [details, setDetails] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+
+  const handleDetails = () => {
+    setDetails(!details);
+  };
 
   return (
     <Container>
-      <div className="image">
+      {details ? <Details movie={movie} close={handleDetails} /> : ""}
+      <div className="image" onClick={handleDetails}>
         {loading && <img src="/loader.svg" alt="loader" className="loader" />}
         <img
           src={`https://www.themoviedb.org/t/p/w440_and_h660_face${movie?.poster_path}`}
@@ -15,7 +22,7 @@ const Box = ({ movie }) => {
           style={loading ? { display: "none" } : {}}
         />
       </div>
-      <div className="about">
+      <div className="about" onClick={handleDetails}>
         <p className="title">
           {movie?.original_title?.length > 18
             ? `${movie?.original_title?.slice(0, 18)}...`
