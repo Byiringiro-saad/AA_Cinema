@@ -42,7 +42,7 @@ const Movies = () => {
         setResults(res?.data);
         setMovies(res?.data?.results);
       });
-  }, [page]);
+  }, [page, state?.genreId]);
 
   return (
     <Container>

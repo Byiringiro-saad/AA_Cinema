@@ -12,6 +12,10 @@ const Nav = ({ genre }) => {
     navigate("/");
   };
 
+  const goToSearch = () => {
+    navigate("/search");
+  };
+
   return (
     <Container>
       <div className="bars" onClick={goToHome}>
@@ -21,7 +25,7 @@ const Nav = ({ genre }) => {
         <p>{genre}</p>
       </div>
       <div className="search">
-        <FiSearch className="icon" />
+        <FiSearch className="icon" onClick={goToSearch} />
       </div>
     </Container>
   );
