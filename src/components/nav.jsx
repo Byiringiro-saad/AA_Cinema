@@ -81,6 +81,22 @@ const Container = styled.nav`
     justify-content: center;
     cursor: pointer;
   }
+
+  @media screen and (max-width: 600px) {
+    height: 50px;
+
+    .icon {
+      font-size: 1.3em;
+    }
+
+    .genre {
+      width: 90%;
+
+      p {
+        font-size: 1.5em;
+      }
+    }
+  }
 `;
 
 export default Nav;

@@ -37,7 +37,7 @@ const Box = ({ movie }) => {
 const Container = styled.div`
   width: 300px;
   height: 500px;
-  margin: 10px 0;
+  margin: 10px;
   color: var(--white);
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;

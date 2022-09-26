@@ -116,6 +116,12 @@ const Container = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 600px) {
+    ul li a {
+      font-size: 3em;
+    }
+  }
 `;
 
 export default Home;
