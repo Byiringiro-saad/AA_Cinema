@@ -19,7 +19,7 @@ const Details = ({ movie, close }) => {
       setLoading(false);
       setData(res.data);
     });
-  }, []);
+  }, [movie.id]);
 
   const goToMovie = () => {
     navigate(`/genres/${genre}/${movie.id}`);

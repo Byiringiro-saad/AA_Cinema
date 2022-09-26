@@ -19,11 +19,12 @@ const Movie = () => {
         if (data.type === "Trailer") {
           return true;
         }
+        return false;
       });
       setLoading(false);
       setMovieData(trailers[0]);
     });
-  }, []);
+  }, [movie]);
 
   return (
     <Container>
