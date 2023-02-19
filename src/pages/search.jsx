@@ -1,11 +1,14 @@
-import React, { useState } from "react";
 import styled from "styled-components";
+import React, { useState } from "react";
 
-import Nav from "../components/nav";
 import api from "../features/api";
+import Nav from "../components/nav";
+import Details from "../components/movie/details";
 
 const Search = () => {
   const [query, setQuery] = useState("");
+  const [details, setDetails] = useState(false);
+  const [selected, setSelected] = useState({});
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
 
@@ -15,23 +18,35 @@ const Search = () => {
 
   const handleChange = (e) => {
     setQuery(e.target.value);
-    setLoading(true);
+    clearTimeout();
+    setTimeout(() => {
+      setLoading(true);
 
-    api
-      .get("/search/movie", {
-        params: {
-          query: query,
-        },
-      })
-      .then((response) => {
-        setLoading(false);
-        console.log(response.data);
-        setSuggestions(response.data.results);
-      });
+      api
+        .get("/search/movie", {
+          params: {
+            query: query,
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+          setSuggestions(response.data.results);
+        });
+    }, 3000);
+  };
+
+  const handleDetails = () => {
+    setDetails(!details);
+  };
+
+  const handleSelection = (id) => {
+    setSelected(suggestions[id]);
+    setDetails(true);
   };
 
   return (
     <Container>
+      {details ? <Details movie={selected} close={handleDetails} /> : ""}
       <Nav />
       <form className="form" onSubmit={handleSubmit}>
         <input
@@ -48,8 +63,12 @@ const Search = () => {
               <img src="/loader.svg" alt="loader" />
             ) : (
               <>
-                {suggestions.slice(0, 4).map((suggestion, index) => (
-                  <div key={index} className="suggestion">
+                {suggestions.slice(0, 6).map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="suggestion"
+                    onClick={() => handleSelection(index)}
+                  >
                     <div className="image">
                       <img
                         src={`https://www.themoviedb.org/t/p/w440_and_h660_face${suggestion?.poster_path}`}
@@ -70,11 +89,10 @@ const Search = () => {
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   .form {
     width: 50%;
@@ -82,6 +100,7 @@ const Container = styled.div`
     justify-self: center;
     background: var(--red);
     border-bottom: 1px solid var(--gray);
+    margin: 250px 0 0 0;
 
     input {
       width: 100%;
@@ -97,11 +116,10 @@ const Container = styled.div`
 
   .suggestions {
     width: 50%;
-    height: 300px;
+    height: 400px;
     margin: 50px 0 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 
     img {
       width: 30px;
@@ -109,7 +127,7 @@ const Container = styled.div`
 
     .suggestion {
       width: 100%;
-      height: 100px;
+      height: 120px;
       display: flex;
       flex-direction: row;
       align-items: center;
