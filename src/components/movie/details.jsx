@@ -98,8 +98,8 @@ const Container = styled.div`
   }
 
   .details {
-    width: 70%;
-    height: 100%;
+    width: 80%;
+    height: auto;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -196,6 +196,7 @@ const Container = styled.div`
     button {
       width: 80%;
       height: 40px;
+      margin: 0 0 35px 0;
       background: var(--bright);
       color: var(--white);
       font-size: 1.1em;
@@ -215,6 +216,7 @@ const Container = styled.div`
   @media screen and (max-width: 600px) {
     .details {
       width: 100%;
+      height: auto;
 
       .top {
         width: 90%;
@@ -258,7 +260,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 900px) {
     .details {
-      width: 85%;
+      width: 90%;
 
       .top {
         .tagline {
@@ -271,7 +273,6 @@ const Container = styled.div`
   @media screen and (max-width: 300px) {
     .details {
       width: 100%;
-      height: 100vh;
 
       .top {
         width: 100%;

@@ -69,13 +69,7 @@ const Search = () => {
                     className="suggestion"
                     onClick={() => handleSelection(index)}
                   >
-                    <div className="image">
-                      <img
-                        src={`https://www.themoviedb.org/t/p/w440_and_h660_face${suggestion?.poster_path}`}
-                        alt={suggestion?.original_title}
-                      />
-                    </div>
-                    <p className="name">{suggestion.original_title}</p>
+                    <p className="name">{suggestion.title}</p>
                   </div>
                 ))}
               </>
@@ -95,7 +89,7 @@ const Container = styled.div`
   align-items: center;
 
   .form {
-    width: 50%;
+    width: 90%;
     height: 50px;
     justify-self: center;
     background: var(--red);
@@ -115,11 +109,12 @@ const Container = styled.div`
   }
 
   .suggestions {
-    width: 50%;
+    width: 90%;
     height: 400px;
     margin: 50px 0 0 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    text-align: center;
 
     img {
       width: 30px;
@@ -127,10 +122,11 @@ const Container = styled.div`
 
     .suggestion {
       width: 100%;
-      height: 120px;
+      height: 40px;
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: center;
       margin: 10px 0;
       cursor: pointer;
 
@@ -154,6 +150,16 @@ const Container = styled.div`
         width: auto;
         height: 100px;
         border-radius: 5px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .suggestions {
+      grid-template-columns: 1fr;
+
+      .suggestion {
+        height: 60px;
       }
     }
   }

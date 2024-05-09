@@ -33,7 +33,15 @@ const Movie = () => {
         {loading ? (
           <img src="/loader.svg" alt="loader" className="loader" />
         ) : (
-          <></>
+          <iframe
+            style={{ width: "100%", height: "100%" }}
+            frameborder="0"
+            allowfullscreen
+            title="YouTube video player"
+            referrerpolicy="strict-origin-when-cross-origin"
+            src={`https://www.youtube.com/embed/${movieData?.key}`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          />
         )}
       </div>
     </Container>
